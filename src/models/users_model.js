@@ -29,9 +29,38 @@ const findUser = (field, record) => {
     });
 };
 
+// create model for list users
+const listUsers = () => {
+    return new Promise((resolve, reject) => {
+        connection.query('SELECT * FROM users', (error, result) => {
+            if (!error) {
+                resolve(result)
+            } else {
+                console.log(error)
+                reject(error)
+            }
+        })
+    })
+}
+
+// create model for detail an user
+const detailUser = (idUser) => {
+    return new Promise((resolve, reject) => {
+        connection.query('SELECT * FROM users WHERE id = ?', (idUser), (error, result) => {
+            if (!error) {
+                resolve(result);
+            } else {
+                console.log(error);
+                reject(error)
+            }
+        })
+    })
+}
 
 // export modules to controllers
 module.exports = {
     addUser,
-    findUser
+    findUser,
+    listUsers,
+    detailUser
 }

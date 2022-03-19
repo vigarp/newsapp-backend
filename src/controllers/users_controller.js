@@ -81,10 +81,39 @@ const loginUser = async (req, res, next) => {
     }
 }
 
+// create controller for list users
+const listUsers = async (req, res, next) => {
+    try {
+        const resultUsers = await usersModel.listUsers();
+        handleResponse.response(res, resultUsers, 200, 'Successfully listed users');
+    } catch (error) {
+        console.log(error)
+        next(createError(500, new createError.InternalServerError()));
+        
+    }
+}
+
+// create controller for detail an user
+const detailUser = async (req, res, next) => {
+    try {
+        const idUser = req.params.id;
+        const [resultUser] = await usersModel.detailUser(idUser);
+        if (resultUser === undefined) {
+            handleResponse.response(res, null, 404, 'User not found')
+        } else {
+            handleResponse.response(res, resultUser, 200, 'Successfully fetched an user')
+        }
+    } catch (error) {
+        console.log(error)
+        next(createError(500, new createError.InternalServerError()));
+    }
+}
 
 // export modules to routes
 module.exports = {
     addUser,
     loginUser,
+    listUsers,
+    detailUser
 }
 
