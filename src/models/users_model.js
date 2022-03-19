@@ -8,6 +8,7 @@ const addUser = (dataUser) => {
             if (!error) {
                 resolve(result);
             } else {
+                console.log(error)
                 reject(error);
             }
         });

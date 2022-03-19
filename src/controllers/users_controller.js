@@ -76,12 +76,15 @@ const loginUser = async (req, res, next) => {
             handleResponse.response(res, result, 200, 'successfully login');
         }
     } catch (error) {
+        console.log(error)
         next(createError(500, new createError.InternalServerError()));
     }
 }
+
 
 // export modules to routes
 module.exports = {
     addUser,
     loginUser,
 }
+
