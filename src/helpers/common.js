@@ -15,7 +15,7 @@ const response = (res, result, status, message, pagination) => {
         res.status(status).json({
             status: 'Failed',
             code: status || 200,
-            data: result,
+            data: result || null,
             message: message || null,
             pagination: pagination
         });
