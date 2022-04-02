@@ -10,7 +10,6 @@ const usersModel = require('../models/users_model');
 const addUser = async (req, res, next) => {
     try {
         const randomId = Math.floor(Math.random() * 999);
-        const randomIdWallet = 'W-' + Math.floor(Math.random() * 999);
         const { email, password, phone } = req.body;
         const emailRegistered = await usersModel.findUser('email', email);
         if (email === undefined || password === undefined || phone === undefined || email === '' || password === '' || phone === '') {
@@ -23,15 +22,11 @@ const addUser = async (req, res, next) => {
                 id: randomId,
                 email: email,
                 password: passwordHash,
+                username: 'newsman-' + Math.floor(Math.random() * 999),
                 phone: phone
             };
             await usersModel.addUser(dataUSer);
-            const resultUser = {
-                id: dataUSer.id,
-                username: dataUSer.username,
-                email: dataUSer.email,
-                phone: dataUSer.phone
-            }
+            const [resultUser] = await usersModel.detailUser('email', email);
             handleResponse.response(res, resultUser, 201, 'user successfully registered');
         }
     } catch (error) {
@@ -97,7 +92,7 @@ const listUsers = async (req, res, next) => {
 const detailUser = async (req, res, next) => {
     try {
         const idUser = req.params.id;
-        const [resultUser] = await usersModel.detailUser(idUser);
+        const [resultUser] = await usersModel.detailUser('id',idUser);
         if (resultUser === undefined) {
             handleResponse.response(res, null, 404, 'User not found')
         } else {
