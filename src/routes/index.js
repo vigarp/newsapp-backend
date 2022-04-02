@@ -11,13 +11,13 @@ const {protect, isAdmin} = require('../middleware/auth')
 route.post('/register', usersController.addUser);
 route.post('/login', usersController.loginUser);
 
-route.get('/users', protect, usersController.listUsers);
-route.get('/users/:id', protect, usersController.detailUser);
+route.get('/users', /* protect,*/ usersController.listUsers);
+route.get('/users/:id', /* protect,*/ usersController.detailUser);
 
-route.post('/articles', protect, articlesController.addArticle);
-route.get('/articles', protect, articlesController.listArticles);
-route.get('/articles/:id', protect, articlesController.detailArticle);
-route.delete('/articles/:id', protect, isAdmin, articlesController.deleteArticle);
-route.get('/articles/pending/:id', protect, isAdmin, articlesController.updateArticle);
+route.post('/articles', /* protect,*/ articlesController.addArticle);
+route.get('/articles', /* protect,*/ articlesController.listArticles);
+route.get('/articles/:id', /* protect,*/ articlesController.detailArticle);
+route.delete('/articles/:id', /* protect,*/ articlesController.deleteArticle);
+route.get('/articles/pending/:id', /* protect,*/ articlesController.updateArticle);
 
 module.exports = route
