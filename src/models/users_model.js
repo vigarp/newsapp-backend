@@ -15,10 +15,24 @@ const addUser = (dataUser) => {
     });
 };
 
-// create model for find/handling user by email
+// create model for find/handling authentication user
 const findUser = (field, record) => {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM users WHERE ${field} = '${record}'`, (error, result) => {
+        connection.query(`SELECT id, username, email, password, fullname, role, job, phone, picture, about FROM users WHERE ${field} = '${record}'`, (error, result) => {
+            if (!error) {
+                resolve(result);
+            } else {
+                console.log(error);
+                reject(error)
+            }
+        })
+    })
+}
+
+// create model for detail user by field
+const detailUser = (field, record) => {
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT id, username, email, fullname, role, job, phone, picture, about FROM users WHERE ${field} = '${record}'`, (error, result) => {
             if (!error) {
                 resolve(result);
             } else {
@@ -29,7 +43,8 @@ const findUser = (field, record) => {
     });
 };
 
-// create model for list users
+
+// create model for display all list users
 const listUsers = () => {
     return new Promise((resolve, reject) => {
         connection.query('SELECT * FROM users', (error, result) => {
@@ -37,20 +52,6 @@ const listUsers = () => {
                 resolve(result)
             } else {
                 console.log(error)
-                reject(error)
-            }
-        })
-    })
-}
-
-// create model for detail an user
-const detailUser = (idUser) => {
-    return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM users WHERE id = ?', (idUser), (error, result) => {
-            if (!error) {
-                resolve(result);
-            } else {
-                console.log(error);
                 reject(error)
             }
         })
